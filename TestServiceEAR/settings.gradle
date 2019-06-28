@@ -1,0 +1,8 @@
+includeFlat 'TestServiceWeb'
+includeFlat 'TestServiceImpl'
+includeFlat 'TestServiceContractLibrary'
+
+project (':TestServiceWeb').projectDir = new File(settingsDir, "../TestServiceWeb")
+project (':TestServiceImpl').projectDir = new File(settingsDir, "../TestServiceImpl")
+project (':TestServiceContractLibrary').projectDir = new File(settingsDir, "../TestServiceContractLibrary")
+

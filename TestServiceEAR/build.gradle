@@ -1,0 +1,94 @@
+/**
+
+    Build Script for ReferenceEAR. 
+
+    This Will produce the EAR with PiInternetQuoteServiceWeb WAR packed with all the required jars 
+    including the code from the PiAcordBilling* projects.
+
+*/
+
+apply from: "common-build-config.gradle"
+
+
+buildscript {
+    repositories {
+        maven { url 'https://pi-artifactory.lmig.com/artifactory/maven/' }
+    }
+    dependencies {
+        classpath 'net.wasdev.wlp.gradle.plugins:liberty-gradle-plugin:1.0'
+    }
+}
+
+apply plugin: 'liberty'
+liberty {
+    installDir = wasLPPath 
+    serverName = 'default'
+    timeout = "120000"
+}
+
+
+subprojects{
+    version '1.0.0'         
+    group "com.lmig.pi" 
+}
+
+//Config for EAR starts
+apply plugin: 'ear'
+group = "PIIT.products"
+version = "${buildVersion}"
+
+ear{
+    baseName = 'TESTSERVICE'
+    destinationDir = file("${rootProject.buildDir}/distributions")
+    version = ''
+    if (includeEARVersion) {
+        version = "${buildVersion}"
+        classifier ="B$buildVersion"
+    }
+}
+    
+dependencies{
+    deploy project(path:':TestServiceWeb', configuration:'archives')   
+}
+
+// run after changing dependencies after running refresh gradle dependencies
+task rebuildAllProjectsEclipseWtpComponent   {
+    description 'Rebuilds eclipse org.eclipse.wst.common.component for all projects after a dependency change. Run after refresh of gradle dependencies'
+   
+    subprojects.each {
+    
+        it.afterEvaluate {
+            def cleanWtpComponentTask = it.tasks.findByName('cleanEclipseWtpComponent')
+            if (cleanWtpComponentTask) {
+                dependsOn(cleanWtpComponentTask)
+            }
+            
+            def eclipseWtpComponentTask = it.tasks.findByName('eclipseWtpComponent')
+            if (eclipseWtpComponentTask) {
+                dependsOn(eclipseWtpComponentTask)
+            }
+        }
+    }
+    dependsOn cleanEclipseWtpComponent
+    dependsOn eclipseWtpComponent
+}
+
+task testAll {
+	description 'Run tests from all child projects.'
+	subprojects.each {
+        it.afterEvaluate {
+            def testTask = it.tasks.findByName('test')
+	        if (testTask) {
+                dependsOn(testTask)
+	        }
+	    }
+    }
+}
+
+task localDeploy(type: Copy) {
+    description 'Deploy EAR to local waslp server.'
+    from 'build/distributions/'
+    into wasLPPath + '/usr/servers/development/dropins'
+    include '**/*.ear'
+    dependsOn ear
+}

@@ -1,0 +1,55 @@
+/*
+     Common Script
+*/
+
+apply from: "gradle/dependencies.gradle"
+
+/* build_dist is the entry point for formal builds from Release Engineering/ATS.
+   This task will build the EAR without version number and do not upload it to Artifactory.
+   DO NOT rename/remove this. */
+task build_dist
+
+//Common configuration
+allprojects{
+    apply plugin: 'java' 
+    apply plugin: 'maven'
+    apply plugin: 'jacoco'
+    apply plugin: 'eclipse-wtp'   
+        
+    sourceCompatibility = 1.8
+      
+    repositories{
+        maven{
+            url "${lmArtifactoryProd}"
+        }
+    }
+    
+    buildscript{
+        repositories {
+            maven {
+                url "${lmArtifactoryProd}"
+            }
+        }
+    }
+    
+    
+    configurations {    
+        jaxws
+        jaxb
+        provided
+        anttask
+    }
+    
+    compileJava.dependsOn clean
+    build_dist.dependsOn build
+    
+}
+
+//Sub project configuration
+subprojects{
+
+   // Removed upload information
+
+}
+ 
+

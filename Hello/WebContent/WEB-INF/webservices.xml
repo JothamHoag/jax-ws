@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webservices xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/javaee_web_services_1_4.xsd" version="1.4">
+	<webservice-description>
+		<webservice-description-name>RequestService</webservice-description-name>
+		<port-component>
+			<port-component-name>RequestDelegate</port-component-name>
+			<wsdl-service xmlns:pfx="http://javabean.jh/">
+			pfx:RequestService</wsdl-service>
+			<wsdl-port xmlns:pfx="http://javabean.jh/">
+			pfx:RequestPort</wsdl-port>
+			<enable-mtom>false</enable-mtom>
+			<service-impl-bean>
+				<servlet-link>
+				jh.javabean.RequestDelegate</servlet-link>
+			</service-impl-bean>
+		</port-component>
+	</webservice-description>
+	<webservice-description>
+		<webservice-description-name>RequestServiceTwo</webservice-description-name>
+		<wsdl-file>WEB-INF/wsdl/RequestService.wsdl</wsdl-file>
+		<port-component>
+			<port-component-name>RequestDelegateTwo</port-component-name>
+			<wsdl-service xmlns:pfx="http://javabean.jh/">
+			pfx:RequestServiceTwo</wsdl-service>
+			<wsdl-port xmlns:pfx="http://javabean.jh/">
+			pfx:RequestPort</wsdl-port>
+			<enable-mtom>true</enable-mtom>
+			<service-impl-bean>
+				<servlet-link>
+				jh.javabean.RequestDelegateTwo</servlet-link>
+			</service-impl-bean>
+		</port-component>
+	</webservice-description>
+	<webservice-description>
+		<webservice-description-name>HelloService</webservice-description-name>
+		<port-component>
+			<port-component-name>Hello</port-component-name>
+			<wsdl-service xmlns:pfx="http://endpoint.helloservice/">
+			pfx:HelloService</wsdl-service>
+			<wsdl-port xmlns:pfx="http://endpoint.helloservice/">
+			pfx:HelloPort</wsdl-port>
+			<enable-mtom>false</enable-mtom>
+			<service-impl-bean>
+				<servlet-link>
+				helloservice.endpoint.Hello</servlet-link>
+			</service-impl-bean>
+		</port-component>
+	</webservice-description>
+</webservices>

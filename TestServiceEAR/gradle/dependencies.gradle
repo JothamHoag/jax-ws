@@ -1,0 +1,57 @@
+apply from: "gradle/global-properties.gradle"
+
+ext {
+    libraries = [:]
+}
+
+libraries.commons_lang3 = 'org.apache.commons:commons-lang3:3.4'
+libraries.commons_logging = 'commons-logging:commons-logging:1.2'
+libraries.org_apache_logging_log4j = [
+    'org.apache.logging.log4j:log4j-api:2.7@jar',
+    'org.apache.logging.log4j:log4j-core:2.7@jar',
+    'org.apache.logging.log4j:log4j-jcl:2.7@jar'
+]    
+libraries.joda_time = 'joda-time:joda-time:1.6.2'
+/*
+libraries.rdm = [
+    'com.lmig.pm.dataservices.domain.common:distributed-cache-client:0.1@jar',
+    'com.lmig.pm.dataservices.domain.common:rdm-consumer:0.1@jar',
+    'com.lmig.pm.dataservices.domain.common:ref-data-load-client:0.1@jar'
+]
+*/
+libraries.orika = 'ma.glasnost.orika:orika-core:1.4.6'
+
+libraries.jaxb = files(wasLPPath + "lib/com.ibm.ws.jaxb.tools.2.2.6_1.0.10.jar")
+libraries.jaxws = files(wasLPPath + "lib/com.ibm.ws.jaxws.tools.jdk8.2.2.6_1.0.10.jar")
+libraries.javax_rs = 'com.ibm.ws.javaee:com.ibm.ws.javaee.jaxrs:2.0_1.0.12@jar'
+libraries.cdi = 'com.ibm.ws.javaee:com.ibm.ws.javaee.cdi:1.2_1.2.12@jar'
+libraries.servlet = 'com.ibm.ws.javaee:com.ibm.ws.javaee.servlet:3.1_1.0.12@jar'
+libraries.distcache = files(wasLPPath + "dev/api/ibm/com.ibm.websphere.appserver.api.distributedMap_2.0.10.jar")
+
+libraries.ant = files(
+    wasLPPath + "lib/com.ibm.ws.jaxb.tools.2.2.6_1.0.10.jar",
+    wasLPPath + "lib/com.ibm.ws.jaxws.tools.jdk8.2.2.6_1.0.10.jar")
+
+libraries.jaxb2basics = [
+    "org.jvnet.jaxb2_commons:jaxb2-basics:0.11.1",
+    "org.slf4j:slf4j-api:1.7.21",
+    "org.slf4j:slf4j-simple:1.7.21"]
+
+libraries.jackson_json = 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.7.2'
+
+//Testing Libs
+libraries.tests = [
+    testng: 'org.testng:testng:6.8.13',
+    mockito_all: 'org.mockito:mockito-all:1.10.8',
+    powermock_mockito_full: 'org.powermock:powermock-mockito-release-full:1.6.1',
+    hamcrest_all: 'org.hamcrest:hamcrest-all:1.3',
+    xmlunit: 'xmlunit:xmlunit:1.2'
+]
+
+libraries.testng_with_mock = [
+    libraries.tests.testng,
+    libraries.tests.mockito_all,
+    libraries.tests.powermock_mockito_full,
+    libraries.tests.hamcrest_all,
+    libraries.tests.xmlunit
+]

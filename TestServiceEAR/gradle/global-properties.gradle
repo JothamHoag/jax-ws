@@ -1,0 +1,24 @@
+import org.gradle.internal.os.OperatingSystem;
+
+ext{
+    lmArtifactoryProd = "https://pi-artifactory.lmig.com/artifactory/maven"        
+    reportingDir = "${rootProject.buildDir}/reports" 
+    
+    failBuildOnCheckstyle_Main = false
+    failBuildOnCheckstyle_Test = false
+    failBuildOnUnitTest = false
+    
+    //get it from Jenkins, else 0
+    buildTimeStamp = System.getenv("BUILD_TIMESTAMP") ?: new Date().format("MM/dd/yyyy hh:mm a")
+    hostName = InetAddress.getLocalHost().getHostName();
+    buildVersion = System.getenv("BUILD_VERSION") ?: ("TESTSERVICE_" + hostName + "_" + buildTimeStamp)
+    includeEARVersion = project.hasProperty('includeEARVersion') && project.getProperty('includeEARVersion') ? true :false
+
+    //WAS LP Home Path
+	if(OperatingSystem.current().isLinux()) {
+		wasLPPathConfigured = System.getenv("wlp.install.dir") ?: "/builds/tools/websphere/lin_8.5.5.7_liberty/"
+		wasLPPath = wasLPPathConfigured.endsWith("/") ? wasLPPathConfigured : wasLPPathConfigured + '/'
+	} else {
+		wasLPPath = "C:/WASLP_dev/tools/WASLP8559/wlp/"
+	}        
+}
